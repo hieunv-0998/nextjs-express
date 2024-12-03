@@ -51,20 +51,20 @@ class SearchPage extends React.Component {
             offset: this.state.page - 1
           }
         })
-        .then((response) => {
-          const { artists } = response.data;
-          this.setState({
-            artists: artists.items,
-            limit: artists.limit,
-            page: artists.offset + 1,
-            total: artists.total,
-            empty: artists.total === 0,
-            loading: false
+          .then((response) => {
+            const { artists } = response.data;
+            this.setState({
+              artists: artists.items,
+              limit: artists.limit,
+              page: artists.offset + 1,
+              total: artists.total,
+              empty: artists.total === 0,
+              loading: false
+            });
+          })
+          .catch((error) => {
+            this.setState({loading: false});
           });
-        })
-        .catch((error) => {
-          this.setState({loading: false});
-        });
       });
     }
   }
@@ -82,9 +82,9 @@ class SearchPage extends React.Component {
     if (loading || empty) {
       let alert;
       if (loading) {
-        alert = (<div className='alert alert-info'>Recherche en cours...</div>);
+        alert = (<div className='alert alert-info'>Searching...</div>);
       } else if (empty) {
-        alert = (<div className='alert alert-warning'>Aucun résultat correspondant à votre recherche <mark>{ query }</mark>.</div>);
+        alert = (<div className='alert alert-warning'>No results found for your search <mark>{ query }</mark>.</div>);
       }
       return (
         <div className='container'>
@@ -105,7 +105,7 @@ class SearchPage extends React.Component {
             <h4 className='media-heading'>
               <Link href={'/artist?id=' + artist.id} as={'/artist/' + artist.id}><a>{artist.name}</a></Link>
             </h4>
-              {this.getArtistGenres(artist)}<br />
+            {this.getArtistGenres(artist)}<br />
             <a href={artist.external_urls.spotify}>{artist.external_urls.spotify}</a>
           </div>
         </div>
@@ -135,13 +135,13 @@ class SearchPage extends React.Component {
   }
   render() {
     return (
-      <Layout title={ 'Recherche' }>
+      <Layout title={ 'Search' }>
         <div className='container'>
           <div className='page-header'>
-            <h1>Artistes</h1>
+            <h1>Artists</h1>
           </div>
           <div className='panel panel-default'>
-            <div className='panel-heading'>Rechercher un artiste Spotify</div>
+            <div className='panel-heading'>Search for a Spotify artist</div>
             <div className='panel-body'>
               <form onSubmit={this.handleSubmit} className='form-inline'>
                 <div className='form-group'>
@@ -151,9 +151,9 @@ class SearchPage extends React.Component {
                     value={this.state.query}
                     onChange={this.handleChange}
                     className='form-control'
-                    placeholder='Mot(s)-clé(s)' />
+                    placeholder='Keyword(s)' />
                 </div>
-                <button type='submit' className='btn btn-primary'>Chercher</button>
+                <button type='submit' className='btn btn-primary'>Search</button>
               </form>
             </div>
           </div>

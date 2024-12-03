@@ -52,17 +52,17 @@ class AlbumPage extends React.Component {
   renderTracksList() {
     const { loading, artist, album } = this.state;
     if (loading) {
-      return (<div className='alert alert-info'>Chargement...</div>);
+      return (<div className='alert alert-info'>Loading...</div>);
     } else {
       return (
         <div>
           <ol className='breadcrumb'>
-            <li><Link href='/'><a>Recherche</a></Link></li>
+            <li><Link href='/'><a>Search</a></Link></li>
             <li><Link href={'/artist?id=' + artist.id} as={'/artist/' + artist.id}><a>{artist.name}</a></Link></li>
             <li className='active'>{album.name}</li>
           </ol>
           <div className='page-header'>
-            <h1>Pistes</h1>
+            <h1>Tracks</h1>
             <h2>{artist.name} - {album.name}</h2>
           </div>
           <div className='row'>

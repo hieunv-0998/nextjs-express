@@ -4,8 +4,10 @@ const router = express.Router();
 const request = require('superagent');
 const async = require('async');
 
+const agent = request.agent().auth(process.env.SPOTIFY_ACCESS_TOKEN, {type: 'bearer'});
+
 router.get('/search', (req, res) => {
-  request
+  agent
   .get('https://api.spotify.com/v1/search')
   .set('Content-Type', 'application/json')
   .query({
@@ -25,12 +27,12 @@ router.get('/search', (req, res) => {
 router.get('/artist/:id', (req, res) => {
   async.auto({
     artist: function(callback) {
-      request
+      agent
       .get('https://api.spotify.com/v1/artists/' + req.params.id)
       .end((err, response) => callback(err, response.body));
     },
     albums: ['artist', (results, callback) => {
-      request
+      agent
       .get('https://api.spotify.com/v1/artists/' + req.params.id + '/albums')
       .query({
         album_type: 'album',
@@ -55,7 +57,7 @@ router.get('/artist/:id', (req, res) => {
 });
 
 router.get('/album/:id', (req, res) => {
-  request
+  agent
   .get('https://api.spotify.com/v1/albums/' + req.params.id)
   .end((err, response) => {
     if (err) {

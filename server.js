@@ -10,6 +10,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const { parse } = require('url');
 
+require('dotenv').config();
+
 const apiRoutes = require('./server/routes/apiRoutes.js');
 
 app.prepare().then(() => {

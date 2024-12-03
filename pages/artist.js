@@ -34,31 +34,31 @@ class ArtistPage extends React.Component {
           offset: this.state.offset
         }
       })
-      .then((response) => {
-        const { artist, albums } = response.data;
-        this.setState({
-          artist: artist,
-          albums: albums.items,
-          limit: albums.limit,
-          offset: albums.offset,
-          total: albums.total,
-          loading: false
+        .then((response) => {
+          const { artist, albums } = response.data;
+          this.setState({
+            artist: artist,
+            albums: albums.items,
+            limit: albums.limit,
+            offset: albums.offset,
+            total: albums.total,
+            loading: false
+          });
+        })
+        .catch((error) => {
+          this.setState({loading: false});
         });
-      })
-      .catch((error) => {
-        this.setState({loading: false});
-      });
     });
   }
   renderAlbumsList() {
     const { loading, artist, albums, limit, total } = this.state;
     if (loading) {
-      return (<div className='alert alert-info'>Chargement...</div>);
+      return (<div className='alert alert-info'>Loading...</div>);
     } else {
       return (
         <div>
           <ol className='breadcrumb'>
-            <li><Link href='/'><a>Recherche</a></Link></li>
+            <li><Link href='/'><a>Search</a></Link></li>
             <li className='active'>{artist.name}</li>
           </ol>
           <div className='page-header'>
@@ -87,7 +87,7 @@ class ArtistPage extends React.Component {
   }
   render() {
     return (
-      <Layout title={ 'Artiste' }>
+      <Layout title={ 'Artist' }>
         <div className='container'>
           { this.renderAlbumsList() }
         </div>
