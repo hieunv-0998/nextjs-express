@@ -1,3 +1,5 @@
+// NOTE: This file is only used for local development.
+// For Vercel deployment, use Next.js API routes in pages/api.
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
