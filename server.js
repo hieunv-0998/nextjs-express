@@ -7,7 +7,6 @@ const path = require('path');
 
 const dev = process.env.NODE_ENV !== 'production';
 const next = require('next');
-const pathMatch = require('path-match');
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const { parse } = require('url');
@@ -29,21 +28,16 @@ app.prepare().then(() => {
 
   server.use('/api', apiRoutes);
 
-  // Server-side
-  const route = pathMatch();
-
   server.get('/search', (req, res) => {
     return app.render(req, res, '/search', req.query);
   });
 
   server.get('/artist/:id', (req, res) => {
-    const params = route('/artist/:id')(parse(req.url).pathname);
-    return app.render(req, res, '/artist', params);
+    return app.render(req, res, '/artist', { id: req.params.id });
   });
 
   server.get('/album/:id', (req, res) => {
-    const params = route('/album/:id')(parse(req.url).pathname);
-    return app.render(req, res, '/album', params);
+    return app.render(req, res, '/album', { id: req.params.id });
   });
 
   server.get('*', (req, res) => {
